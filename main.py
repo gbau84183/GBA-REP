@@ -17,3 +17,17 @@ def vote(update: Update, _: CallbackContext) -> None:
     # TODO: Save the vote to a database or file
     update.message.reply_text(f"You voted for {selected_option}. Thank you for voting!")
 
+# Set up the bot
+def main() -> None:
+    # Set up the bot and add your command handlers
+    updater = Updater("YOUR_TOKEN_HERE")
+    dispatcher = updater.dispatcher
+    dispatcher.add_handler(CommandHandler("start", start))
+    dispatcher.add_handler(MessageHandler(Filters.text & (Filters.regex('^Option 1$') | Filters.regex('^Option 2$') | Filters.regex('^Option 3$'))), vote)
+
+    # Start the bot
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
